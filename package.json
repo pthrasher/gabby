@@ -1,0 +1,29 @@
+{
+  "name":         "gabby",
+  "version":      "0.1.0",
+  "author":       "Alex Mingoia <talk@alexmingoia.com>",
+  "keywords":     "static site generator nodejs",
+  "description":  "A beautifully simple static site generator.",
+  "homepage":     "https://github.com/alexmng/gabby",
+  "bin":          {
+    "gabby":      "./bin/gabby"
+  },
+  "repository":   {
+    "type":       "git",
+    "url":        "https://github.com/alexmng/gabby.git"
+  },
+  "dependencies": {
+    "alog":       "1.1.x",
+    "commander":  "1.1.x",
+    "findit":     "0.1.x",
+    "marked":     "0.2.x",
+    "plates":     "0.4.x",
+    "stylus":     "0.32.x",
+    "uglifycss":  "0.0.5",
+    "uglify-js":  "2.2.x"
+  },
+  "engines":      {
+    "node":       "0.8.x",
+    "npm":        "1.1.x"
+  }
+}

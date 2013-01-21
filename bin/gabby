@@ -1,0 +1,107 @@
+#!/usr/bin/env node
+
+/**
+ * Dependencies
+ */
+
+var Gabby         = require('../'),
+    fs            = require('fs')
+    child_process = require('child_process'),
+    program       = require('commander');
+
+
+/**
+ * CLI Arguments
+ */
+
+program.version(
+  JSON.parse(fs.readFileSync(__dirname + '/../package.json')).version
+);
+
+program
+  .command('build [path]')
+  .description('Build project at [path].')
+  .action(build);
+
+program
+  .command('init [path]')
+  .description('Initialize new project at [path].')
+  .action(initialize);
+
+program
+  .command('listen [path]')
+  .description('Start HTTP static server for project at [path].')
+  .option('-p, --port [port]', 'Specify a port to listen on.', 'port')
+  .option('-d, --debug',
+    'Debug mode. Enable this for instant preview of filechanges.'
+  )
+  .action(listen);
+
+program.parse(process.argv);
+
+
+/**
+ * Initialize a new project with given `path`
+ *
+ * @param String path
+ * @api private
+ */
+
+function initialize(path) {
+  var website = new Gabby(path);
+  website.createProjectSkeleton();
+};
+
+
+/**
+ * Build the project at <path>
+ *
+ * @param String path
+ * @api private
+ */
+
+function build(path) {
+  var website = new Gabby(path);
+  website.build();
+};
+
+
+/**
+ * Setup a static HTTP server
+ *
+ * @param String path
+ * @param Map options
+ * @api private
+ */
+
+function listen(path, options) {
+  var website = new Gabby(path);
+  var connect = require('connect');
+  var server = connect();
+  server.use(connect.middleware.compress());
+  if (options.debug) {
+    server.use(connect.middleware.staticCache());
+  }
+  server
+    .use(connect.middleware.static((path || './') + '/public', {
+      maxAge: (options.debug) ? 0 : 86400000
+    }))
+    .use(connect.middleware.static((path || './') + '/generated', {
+      maxAge: (options.debug) ? 0 : 86400000
+    }))
+    .listen(options.port || 3001);
+  // Listen for changes
+  var md5;
+  setInterval(function() {
+    child_process.exec(
+      'find ./ -ls -print0 | md5',
+      function(err, stdout, stderr) {
+        if (err) throw err;
+          if (md5 !== stdout) {
+            md5 = stdout;
+            website.build();
+          }
+      }
+    );
+  }, 1000);
+};
