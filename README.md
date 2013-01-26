@@ -1,14 +1,15 @@
 Gabby
 =====
 
-A beautifully simple static site generator.
+A beautifully simple static site generator for node.js.
 
-* Instant preview of file changes
-* Articles and pages can be Markdown, Jade, Handlebars, or whatever you want
-* Asset packaging and minification
-* CoffeeScript, Stylus, LESS, and SASS support
-* HTTP server with preconfigured routes, clean URLs, and caching
-* CLI tool and static web server
+* Instant preview of file changes.
+* Use markdown or JSON object for page content.
+* Asset packaging and minification.
+* Templates with Jade, Plates, and Haml support.
+* CoffeeScript, Stylus, LESS, and SASS support.
+* HTTP server with preconfigured routes, clean URLs, and caching.
+* CLI tool and static web server.
 
 
 Install
@@ -31,7 +32,7 @@ That will create the following directory structure:
 
     website/
       generated
-      pages
+      content
         index.md
       public
         images
@@ -45,7 +46,7 @@ That will create the following directory structure:
 
 ### Start the HTTP server
 
-    gabby listen website -p 3001 --debug
+    gabby listen website
 
 Then open ```http://localhost:3001``` in your web browser.
 
@@ -54,19 +55,19 @@ Then open ```http://localhost:3001``` in your web browser.
 Start the server in ```--debug``` mode for changes to be reflected immediately.
 
 
-Pages and definitions
+Page content and templates
 --------------------------
 
-### Pages
+Page content is defined by files in the ```content``` directory. The file names
+and directory structure will determine your URL structure. Content files may
+either be markdown or JSON.
 
-Pages are files (usually markdown) inside the ```pages```
-directory, which are parsed and used as your site's HTML pages. The page file
-names and directory structure will determine your URL structure.
+### JSON
 
-### Page definitions
-
-Page definitions are ```.json``` files inside the ```pages``` directory, which
-give definition to the content file of the same name.
+JSON content files are parsed into a ```data``` object used to render the
+template. Some properties are reserved for use by Gabby, such as the
+```template``` property, which specifies the template file to use with
+this data.
 
     {
       "title": "My first article",
@@ -75,26 +76,29 @@ give definition to the content file of the same name.
       "template": "article.jade" // Optional. Overrides layout template.
     }
 
-For example, you may have an ```/about``` page with content stored in ```about.md```
-and the template specified in ```about.json```.
+If no template is specified, the default layout template will be used.
 
-#### Markdown
+### Markdown
 
-Markdown files do not need a ```.json``` page definition and can use meta
-text at the top of the file:
+Markdown files must have metadata at the top of the file:
 
     Title: My first post
     Date: 2013-01-01 16:20
     Author: First Last <author@email.com>
     Template: article.jade
 
+This metadata is added as properties to the ```data``` object used to render the
+template. The rest of the file will be converted to HTML and stored in
+```data.content```. If no template is specified, the default layout template
+will be used.
+
 
 Directory structure
 -------------------
 
 ```generated``` is where all of your HTML and other static files are output.  
-```pages``` defines your URL structure and contains markdown articles or json
-page definitions.  
+```content``` defines your URL structure and contains markdown articles or json
+content.  
 ```public``` is for images and other public files.  
 ```scripts``` is for JavaScript or CoffeeScript.  
 ```styles``` is for CSS, SASS, LESS, or Stylus.  
@@ -105,9 +109,9 @@ Template variables
 ------------------
 
 ```content``` page content.  
-```pageAuthor``` page author.  
-```pageDate``` page date.  
-```pageTitle``` page title.
+```author``` page author.  
+```date``` page date.  
+```title``` page title.
 
 
 JavaScript API

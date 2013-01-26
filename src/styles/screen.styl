@@ -1,5 +1,11 @@
 body
-  background #FFF url('/images/background.png') repeat
+  background rgb(254,255,255); /* Old browsers */
+  background url('/images/background.png'), -moz-radial-gradient(center 0, ellipse cover,  rgba(254,255,255,1) 0%, rgba(221,241,249,1) 35%, rgba(199,226,237,1) 100%); /* FF3.6+ */
+  background url('/images/background.png'), -webkit-gradient(radial, center 0, 0px, center center, 100%, color-stop(0%,rgba(254,255,255,1)), color-stop(35%,rgba(221,241,249,1)), color-stop(100%,rgba(199,226,237,1))); /* Chrome,Safari4+ */
+  background url('/images/background.png'), -webkit-radial-gradient(center 0, ellipse cover,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(199,226,237,1) 100%); /* Chrome10+,Safari5.1+ */
+  background url('/images/background.png'), -o-radial-gradient(center 0, ellipse cover,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(199,226,237,1) 100%); /* Opera 12+ */
+  background url('/images/background.png'), -ms-radial-gradient(center 0, ellipse cover,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(199,226,237,1) 100%); /* IE10+ */
+  background url('/images/background.png'), radial-gradient(ellipse at center 0,  rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(199,226,237,1) 100%); /* W3C */
   color #333
   font-family "Helvetica Neue", Helvetica, sans-serif
   font-size 16px
@@ -7,7 +13,7 @@ body
 
 #content
   margin 3em auto
-  width 50%
+  width 75%
   text-align left
 
 @media only screen and (max-width: 1024px)
@@ -20,12 +26,16 @@ h1, h2, h3, h4, h5, h6
 h1
   background url('/images/gabby.png') no-repeat center center
   height 106px
-  margin-bottom 2em
+  margin-bottom 1em
   overflow hidden
   text-indent -9999px
 
 h2
   padding-top 1.6em
+
+h2:first-child {
+  text-align: center;
+}
 
 h3, h4
   padding-top 0.8em
@@ -35,7 +45,20 @@ p
   margin 0 0 1em
 
 ul
+  list-style none
   line-height 1.6em
+  margin 2em 0 0
+  padding 0
+
+li
+  list-style-image none
+
+li::before
+  color #666
+  content '\2605'
+  font-size .75em
+  line-height 2.75em
+  margin 0 1em 0 0
 
 pre
   background #fff
@@ -54,3 +77,6 @@ p code
   font 12px/1.4 monaco, monospace
   overflow-x auto
   padding .2em .5em
+
+.center
+  text-align center

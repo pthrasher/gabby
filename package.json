@@ -1,6 +1,6 @@
 {
   "name":         "gabby",
-  "version":      "0.1.0",
+  "version":      "0.2.0",
   "author":       "Alex Mingoia <talk@alexmingoia.com>",
   "keywords":     "static site generator nodejs",
   "description":  "A beautifully simple static site generator.",
@@ -13,7 +13,8 @@
     "url":        "https://github.com/alexmng/gabby.git"
   },
   "dependencies": {
-    "alog":       "1.1.x",
+    "alog":       "1.2.x",
+    "async":      "0.1.x",
     "commander":  "1.1.x",
     "findit":     "0.1.x",
     "marked":     "0.2.x",

@@ -6,6 +6,7 @@
 
 var Gabby         = require('../'),
     fs            = require('fs')
+    fspath        = require('path'),
     child_process = require('child_process'),
     program       = require('commander');
 
@@ -14,9 +15,13 @@ var Gabby         = require('../'),
  * CLI Arguments
  */
 
-program.version(
-  JSON.parse(fs.readFileSync(__dirname + '/../package.json')).version
-);
+program
+  .version(
+    JSON.parse(fs.readFileSync(__dirname + '/../package.json')).version
+  )
+  .option('-d, --debug',
+    'Debug mode. Enable this for instant preview of filechanges.'
+  );
 
 program
   .command('build [path]')
@@ -32,9 +37,6 @@ program
   .command('listen [path]')
   .description('Start HTTP static server for project at [path].')
   .option('-p, --port [port]', 'Specify a port to listen on.', 'port')
-  .option('-d, --debug',
-    'Debug mode. Enable this for instant preview of filechanges.'
-  )
   .action(listen);
 
 program.parse(process.argv);
@@ -48,7 +50,7 @@ program.parse(process.argv);
  */
 
 function initialize(path) {
-  var website = new Gabby(path);
+  var website = new Gabby(path, {'log level': (program.debug) ? 4 : 3});
   website.createProjectSkeleton();
 };
 
@@ -61,7 +63,7 @@ function initialize(path) {
  */
 
 function build(path) {
-  var website = new Gabby(path);
+  var website = new Gabby(path, {'log level': (program.debug) ? 4 : 3});
   website.build();
 };
 
@@ -75,33 +77,54 @@ function build(path) {
  */
 
 function listen(path, options) {
-  var website = new Gabby(path);
+  var website = new Gabby(path, {'log level': (program.debug) ? 4 : 3});
   var connect = require('connect');
   var server = connect();
+  var static = connect.middleware.static((path || './') + '/generated', {
+    maxAge: (program.debug) ? 0 : 86400000
+  });
   server.use(connect.middleware.compress());
-  if (options.debug) {
+  if (program.debug) {
     server.use(connect.middleware.staticCache());
   }
   server
     .use(connect.middleware.static((path || './') + '/public', {
-      maxAge: (options.debug) ? 0 : 86400000
+      maxAge: (program.debug) ? 0 : 86400000
     }))
-    .use(connect.middleware.static((path || './') + '/generated', {
-      maxAge: (options.debug) ? 0 : 86400000
-    }))
-    .listen(options.port || 3001);
-  // Listen for changes
-  var md5;
-  setInterval(function() {
-    child_process.exec(
-      'find ./ -ls -print0 | md5',
-      function(err, stdout, stderr) {
-        if (err) throw err;
-          if (md5 !== stdout) {
-            md5 = stdout;
-            website.build();
-          }
+    .use(function(req, res, next) {
+      var ext = req.url.match(/\.([^\.]+)$/);
+      if (ext && ext[1] === 'html') {
+        return next();
       }
-    );
-  }, 1000);
+      if (req.url !== '/' && !ext) {
+        var queryIdx = req.url.indexOf('?');
+        if (queryIdx === -1) {
+          req.url = req.url + '.html';
+        }
+        else {
+          req.url = req.url.substr(0, queryIdx) + '.html'
+                  + req.url.substr(queryIdx);
+        }
+      }
+      static(req, res, next);
+    })
+    .listen(isNaN(options.port) ? 3001 : options.port);
+  // Listen for changes
+  if (program.debug) {
+    var md5;
+    setInterval(function() {
+      child_process.exec(
+        'find ' + fspath.resolve(path) + ' -ls -print0 | md5',
+        function(err, stdout, stderr) {
+          if (err) throw err;
+            if (md5 !== stdout) {
+              if (md5) {
+                website.build();
+              }
+              md5 = stdout;
+            }
+        }
+      );
+    }, 1000);
+  }
 };
