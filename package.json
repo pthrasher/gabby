@@ -4,13 +4,13 @@
   "author":       "Alex Mingoia <talk@alexmingoia.com>",
   "keywords":     "static site generator nodejs",
   "description":  "A beautifully simple static site generator.",
-  "homepage":     "https://github.com/alexmng/gabby",
+  "homepage":     "https://github.com/alexmingoia/gabby",
   "bin":          {
     "gabby":      "./bin/gabby"
   },
   "repository":   {
     "type":       "git",
-    "url":        "https://github.com/alexmng/gabby.git"
+    "url":        "https://github.com/alexmingoia/gabby.git"
   },
   "dependencies": {
     "alog":       "1.2.x",
