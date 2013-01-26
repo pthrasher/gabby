@@ -1,6 +1,6 @@
 {
   "name":         "gabby",
-  "version":      "0.2.0",
+  "version":      "0.2.1",
   "author":       "Alex Mingoia <talk@alexmingoia.com>",
   "keywords":     "static site generator nodejs",
   "description":  "A beautifully simple static site generator.",
