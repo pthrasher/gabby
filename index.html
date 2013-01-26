@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title class="title">Gabby — A beautifully simple static site generator</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/screen.css" />
+  </head>
+  <body>
+    <div id="content"><a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+<div id="content"><h1>Gabby</h1>
+<h2 class="center">A beautifully simple static site generator for node.js</h2>
+
+<ul>
+<li>Instant preview of file changes.</li>
+<li>Use markdown or JSON object for page content.</li>
+<li>Asset packaging and minification.</li>
+<li>Templates with Jade, Plates, and Haml support.</li>
+<li>CoffeeScript, Stylus, LESS, and SASS support.</li>
+<li>HTTP server with preconfigured routes, clean URLs, and caching.</li>
+<li>CLI tool and static web server.</li>
+</ul>
+<h2>Install</h2>
+<pre><code>npm install -g gabby</code></pre>
+<p>Once installed you can use the CLI. For available commands use the
+<code>--help</code> option.
+
+
+</p>
+<h2>Get started</h2>
+<h3>Create project</h3>
+<pre><code>gabby init website</code></pre>
+<p>That will create the following directory structure:
+
+</p>
+<pre><code>website/
+  generated
+  content
+    index.md
+  public
+    images
+      favicon.png
+      gabby.png
+  scripts
+  styles
+    screen.styl
+  templates
+    layout.html</code></pre>
+<h3>Start the HTTP server</h3>
+<pre><code>gabby listen website</code></pre>
+<p>Then open <code>http://localhost:3001</code> in your web browser.
+
+</p>
+<h4>Instant preview</h4>
+<p>Start the server in <code>--debug</code> mode for changes to be reflected immediately.
+
+
+</p>
+<h2>Page content and templates</h2>
+<p>Page content is defined by files in the <code>content</code> directory. The file names
+and directory structure will determine your URL structure. Content files may
+either be markdown or JSON.
+
+</p>
+<h3>JSON</h3>
+<p>JSON content files are parsed into a <code>data</code> object used to render the
+template. Some properties are reserved for use by Gabby, such as the
+<code>template</code> property, which specifies the template file to use with
+this data.
+
+</p>
+<pre><code>{
+  &quot;title&quot;: &quot;My first article&quot;,
+  &quot;date&quot;: &quot;2013-01-01 16:20&quot;,
+  &quot;author&quot;: &quot;First Last &lt;author@email.com&gt;&quot;,
+  &quot;template&quot;: &quot;article.jade&quot; // Optional. Overrides layout template.
+}</code></pre>
+<p>If no template is specified, the default layout template will be used.
+
+</p>
+<h3>Markdown</h3>
+<p>Markdown files must have metadata at the top of the file:
+
+</p>
+<pre><code>Title: My first post
+Date: 2013-01-01 16:20
+Author: First Last &lt;author@email.com&gt;
+Template: article.jade</code></pre>
+<p>This metadata is added as properties to the <code>data</code> object used to render the
+template. The rest of the file will be converted to HTML and stored in
+<code>data.content</code>. If no template is specified, the default layout template
+will be used.
+
+
+</p>
+<h2>Directory structure</h2>
+<p><code>generated</code> is where all of your HTML and other static files are output.<br><code>content</code> defines your URL structure and contains markdown articles or json
+content.<br><code>public</code> is for images and other public files.<br><code>scripts</code> is for JavaScript or CoffeeScript.<br><code>styles</code> is for CSS, SASS, LESS, or Stylus.<br><code>templates</code> is for HTML, Haml, Jade, EJS, or Handlebars templates.
+
+
+</p>
+<h2>Template variables</h2>
+<p><code>content</code> page content.<br><code>author</code> page author.<br><code>date</code> page date.<br><code>title</code> page title.
+
+
+</p>
+<h2>JavaScript API</h2>
+<h3>Gabby([path])</h3>
+<p>Create a new Gabby project from given <code>path</code>.
+
+</p>
+<h5>Arguments</h5>
+<p><code>path</code> String. Project path.
+
+</p>
+<h5>Returns</h5>
+<p>Returns <code>gabby</code> instance.
+
+</p>
+<h3>gabby.createProjectSkeleton()</h3>
+<p>Create project directory skeleton if it doesn&#39;t exist.
+
+</p>
+<h3>gabby.build()</h3>
+<p>Build static files and update <code>generated</code> folder.
+
+
+</p>
+<h2>Donations</h2>
+<p>If you like using Gabby, tip me some bits @ 1MUaP1e5DcuWrup7nLwK1rBfLR7YCcjnqS
+</p>
+</div>
+</div>
+  </body>
+</html>
