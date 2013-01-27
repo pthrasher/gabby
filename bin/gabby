@@ -50,7 +50,10 @@ program.parse(process.argv);
  */
 
 function initialize(path) {
-  var website = new Gabby(path, {'log level': (program.debug) ? 4 : 3});
+  var website = new Gabby(path, {
+    'debug': program.debug,
+    'log level': (program.debug) ? 4 : 3
+  });
   website.createProjectSkeleton();
 };
 
@@ -63,7 +66,10 @@ function initialize(path) {
  */
 
 function build(path) {
-  var website = new Gabby(path, {'log level': (program.debug) ? 4 : 3});
+  var website = new Gabby(path, {
+    'debug': program.debug,
+    'log level': (program.debug) ? 4 : 3
+  });
   website.build();
 };
 
@@ -77,7 +83,10 @@ function build(path) {
  */
 
 function listen(path, options) {
-  var website = new Gabby(path, {'log level': (program.debug) ? 4 : 3});
+  var website = new Gabby(path, {
+    'debug': program.debug,
+    'log level': (program.debug) ? 4 : 3
+  });
   var connect = require('connect');
   var server = connect();
   var static = connect.middleware.static((path || './') + '/generated', {
