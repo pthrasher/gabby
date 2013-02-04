@@ -87,6 +87,7 @@ function listen(path, options) {
     'debug': program.debug,
     'log level': (program.debug) ? 4 : 3
   });
+  website.build();
   var connect = require('connect');
   var server = connect();
   var static = connect.middleware.static((path || './') + '/generated', {
@@ -97,13 +98,10 @@ function listen(path, options) {
     server.use(connect.middleware.staticCache());
   }
   server
-    .use(connect.middleware.static((path || './') + '/public', {
-      maxAge: (program.debug) ? 0 : 86400000
-    }))
     .use(function(req, res, next) {
       var ext = req.url.match(/\.([^\.]+)$/);
       if (ext && ext[1] === 'html') {
-        return next();
+        return notFound(req, res, next);
       }
       if (req.url !== '/' && !ext) {
         var queryIdx = req.url.indexOf('?');
@@ -117,7 +115,19 @@ function listen(path, options) {
       }
       static(req, res, next);
     })
+    .use(connect.middleware.static((path || './') + '/generated', {
+      maxAge: (program.debug) ? 0 : 86400000
+    }))
     .listen(isNaN(options.port) ? 3001 : options.port);
+  // 404 Page
+  var notFound = function(req, res, next) {
+    var body = '404 Not Found';
+    res.writeHead(404, {
+      'Content-Type': 'text/html',
+      'Content-Length': body.length
+    });
+    res.end(body);
+  };
   // Listen for changes
   if (program.debug) {
     var md5;
