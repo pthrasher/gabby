@@ -133,9 +133,10 @@ function listen(path, options) {
   };
   // Listen for changes
   if (program.debug) {
-    var sep = fspath.separator,
+    var sep = fspath.sep,
         glob = fspath.resolve(path)+sep+'**'+sep+'*',
         gaze = new Gaze(glob);
+
 
     gaze.on('all', function (event, filepath) {
       if (filepath.indexOf('generated') === -1) {
