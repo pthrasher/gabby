@@ -23,7 +23,8 @@
     "stylus":     "0.32.x",
     "uglifycss":  "0.0.5",
     "uglify-js":  "2.2.x",
-    "wrench":     "1.3.x"
+    "wrench":     "1.3.x",
+    "connect":    "~2.7.10"
   },
   "engines":      {
     "node":       "0.8.x",
