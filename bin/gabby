@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* vim:set softtabstop=2 shiftwidth=2 tabstop=2 expandtab: */
+/* -*- Mode: tab-width: 2; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 
 /**
  * Dependencies
@@ -8,6 +10,7 @@ var Gabby         = require('../'),
     fs            = require('fs'),
     fspath        = require('path'),
     child_process = require('child_process'),
+    Gaze          = require('gaze').Gaze,
     program       = require('commander');
 
 
@@ -130,20 +133,15 @@ function listen(path, options) {
   };
   // Listen for changes
   if (program.debug) {
-    var md5;
-    setInterval(function() {
-      child_process.exec(
-        'find ' + fspath.resolve(path) + ' -ls -print0 | md5',
-        function(err, stdout, stderr) {
-          if (err) throw err;
-            if (md5 !== stdout) {
-              if (md5) {
-                website.build();
-              }
-              md5 = stdout;
-            }
-        }
-      );
-    }, 1000);
+    var sep = fspath.separator,
+        glob = fspath.resolve(path)+sep+'**'+sep+'*',
+        gaze = new Gaze(glob);
+
+    gaze.on('all', function (event, filepath) {
+      if (filepath.indexOf('generated') === -1) {
+        // Only build if it's not stuff in the generated dir.
+        website.build();
+      }
+    });
   }
 }
