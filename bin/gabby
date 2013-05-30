@@ -5,7 +5,7 @@
  */
 
 var Gabby         = require('../'),
-    fs            = require('fs')
+    fs            = require('fs'),
     fspath        = require('path'),
     child_process = require('child_process'),
     program       = require('commander');
@@ -55,7 +55,7 @@ function initialize(path) {
     'log level': (program.debug) ? 4 : 3
   });
   website.createProjectSkeleton();
-};
+}
 
 
 /**
@@ -71,7 +71,7 @@ function build(path) {
     'log level': (program.debug) ? 4 : 3
   });
   website.build();
-};
+}
 
 
 /**
@@ -146,4 +146,4 @@ function listen(path, options) {
       );
     }, 1000);
   }
-};
+}
