@@ -1,33 +1,34 @@
 {
-  "name":         "gabby",
-  "version":      "0.2.3",
-  "author":       "Alex Mingoia <talk@alexmingoia.com>",
-  "keywords":     "static site generator nodejs",
-  "description":  "A beautifully simple static site generator.",
-  "homepage":     "https://github.com/alexmingoia/gabby",
-  "bin":          {
-    "gabby":      "./bin/gabby"
+  "name": "gabby",
+  "version": "0.2.3",
+  "author": "Alex Mingoia <talk@alexmingoia.com>",
+  "keywords": "static site generator nodejs",
+  "description": "A beautifully simple static site generator.",
+  "homepage": "https://github.com/alexmingoia/gabby",
+  "bin": {
+    "gabby": "./bin/gabby"
   },
-  "repository":   {
-    "type":       "git",
-    "url":        "https://github.com/alexmingoia/gabby.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexmingoia/gabby.git"
   },
   "dependencies": {
-    "alog":       "1.2.x",
-    "async":      "0.1.x",
-    "commander":  "1.1.x",
-    "findit":     "0.1.x",
-    "marked":     "0.2.x",
-    "plates":     "0.4.x",
-    "rat":        "0.1.x",
-    "stylus":     "0.32.x",
-    "uglifycss":  "0.0.5",
-    "uglify-js":  "2.2.x",
-    "wrench":     "1.3.x",
-    "connect":    "~2.7.10"
+    "alog": "1.2.x",
+    "async": "0.1.x",
+    "commander": "1.1.x",
+    "findit": "0.1.x",
+    "marked": "0.2.x",
+    "plates": "0.4.x",
+    "rat": "0.1.x",
+    "stylus": "0.32.x",
+    "uglifycss": "0.0.5",
+    "uglify-js": "2.2.x",
+    "wrench": "1.3.x",
+    "connect": "~2.7.10",
+    "mkdirp": "~0.3.5"
   },
-  "engines":      {
-    "node":       "0.8.x",
-    "npm":        "1.1.x"
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
   }
 }
