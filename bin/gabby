@@ -93,7 +93,7 @@ function listen(path, options) {
   website.build();
   var connect = require('connect');
   var server = connect();
-  var static = connect.middleware.static((path || './') + '/generated', {
+  var static = connect.middleware.static((path || '.') + '/generated', {
     maxAge: (program.debug) ? 0 : 86400000
   });
   server.use(connect.middleware.compress());
@@ -106,7 +106,7 @@ function listen(path, options) {
       if (ext && ext[1] === 'html') {
         return notFound(req, res, next);
       }
-      if (req.url !== '/' && !ext) {
+      if (req.url !== '/' && !ext && !/\/$/.test(req.url)) {
         var queryIdx = req.url.indexOf('?');
         if (queryIdx === -1) {
           req.url = req.url + '.html';
@@ -118,7 +118,7 @@ function listen(path, options) {
       }
       static(req, res, next);
     })
-    .use(connect.middleware.static((path || './') + '/generated', {
+    .use(connect.middleware.static((path || '.') + '/generated', {
       maxAge: (program.debug) ? 0 : 86400000
     }))
     .listen(isNaN(options.port) ? 3001 : options.port);
