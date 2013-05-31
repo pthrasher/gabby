@@ -2,6 +2,16 @@
   "name": "gabby",
   "version": "0.2.3",
   "author": "Alex Mingoia <talk@alexmingoia.com>",
+  "contributors": [
+    {
+       "name": "Alex Mingoia",
+       "email": "talk@alexmingoia.com"
+    },
+    {
+        "name": "Philip Thrasher",
+        "email": "philipthrasher@gmail.com"
+    }
+  ],
   "keywords": "static site generator nodejs",
   "description": "A beautifully simple static site generator.",
   "homepage": "https://github.com/alexmingoia/gabby",
