@@ -134,14 +134,15 @@ function listen(path, options) {
   // Listen for changes
   if (program.debug) {
     var sep = fspath.sep,
-        glob = fspath.resolve(path)+sep+'(!generated)'+sep+'**'+sep+'*',
-        gaze = new Gaze(glob);
-
-    console.log(glob);
+        root = fspath.resolve(path),
+        pos_glob = root + sep + '**' + sep + '*',
+        neg_glob = '!' + root + sep + 'generated' + sep + '**' + sep + '*',
+        gaze = new Gaze([pos_glob, neg_glob]);
 
     gaze.on('all', function (event, filepath) {
         // Only build if it's not stuff in the generated dir.
-        website.build();
+      console.log('gaze fs triggered');
+      website.build();
     });
   }
 }
