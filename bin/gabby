@@ -24,6 +24,14 @@ program
   )
   .option('-d, --debug',
     'Debug mode. Enable this for instant preview of filechanges.'
+  )
+  .option('-N, --nolayout',
+          'Disables use of layout.html'
+  )
+  .option('-e, --engine <engine>',
+          'Default engine type for .html files. [html]',
+          String,
+          'html'
   );
 
 program
@@ -55,7 +63,9 @@ program.parse(process.argv);
 function initialize(path) {
   var website = new Gabby(path, {
     'debug': program.debug,
-    'log level': (program.debug) ? 4 : 3
+    'log level': (program.debug) ? 4 : 3,
+    'layout': (program.nolayout) ? true : null,
+    'engine': program.engine
   });
   website.createProjectSkeleton();
 }
@@ -71,7 +81,10 @@ function initialize(path) {
 function build(path) {
   var website = new Gabby(path, {
     'debug': program.debug,
-    'log level': (program.debug) ? 4 : 3
+    'log level': (program.debug) ? 4 : 3,
+    'layout': (program.nolayout) ? true : null,
+    'engine': program.engine
+
   });
   website.build();
 }
@@ -88,7 +101,10 @@ function build(path) {
 function listen(path, options) {
   var website = new Gabby(path, {
     'debug': program.debug,
-    'log level': (program.debug) ? 4 : 3
+    'log level': (program.debug) ? 4 : 3,
+    'layout': (program.nolayout) ? true : null,
+    'engine': program.engine
+
   });
   website.build();
   var connect = require('connect');
@@ -141,7 +157,6 @@ function listen(path, options) {
 
     gaze.on('all', function (event, filepath) {
         // Only build if it's not stuff in the generated dir.
-      console.log('gaze fs triggered');
       website.build();
     });
   }

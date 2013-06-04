@@ -42,7 +42,8 @@
     "uglify-js": "2.2.x",
     "wrench": "1.3.x",
     "connect": "~2.7.10",
-    "underscore": "~1.4.4"
+    "underscore": "~1.4.4",
+    "swig": "~0.13.5"
   },
   "engines": {
     "node": "0.8.x",
